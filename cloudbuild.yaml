@@ -13,7 +13,7 @@ steps:
     - 'asia.gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}'
 # This step clones the ArgoCD-Practice-Repo repository
 - name: 'gcr.io/cloud-builders/git'
-  args: ['clone', 'git@github.com:shubhambhardwaj007/ArgoCD-Practice-Repo.git']
+  args: ['clone', 'https://github.com/shubhambhardwaj007/ArgoCD-Practice-Repo.git']
   dir: '.'
 
 - name: 'gcr.io/cloud-builders/gcloud'
@@ -24,7 +24,9 @@ steps:
   - |
     cd ArgoCD-Practice-Repo && \
     git checkout master && \
-    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
+    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)') && \
+    git config --global user.name "Shubham Bhardwaj" && \
+    git remote set-url origin git@github.com:shubhambhardwaj007/ArgoCD-Practice-Repo.git
 
 # This step generates the new manifest
 - name: 'gcr.io/cloud-builders/gcloud'
