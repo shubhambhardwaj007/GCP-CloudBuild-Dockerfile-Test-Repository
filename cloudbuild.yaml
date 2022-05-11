@@ -33,7 +33,9 @@ steps:
   args:
   - '-c'
   - |
-     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > ArgoCD-Practice-Repo/App/deployment.yaml
+    cd ArgoCD-Practice-Repo && \
+    cat deployment_demo.yaml > App/deployment.yaml && \
+    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > ArgoCD-Practice-Repo/App/deployment.yaml
 # This step pushes the manifest back to hello-cloudbuild-env
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Push manifest
@@ -43,9 +45,9 @@ steps:
   - |
     set -x && \
     cd  ArgoCD-Practice-Repo && \
-    git add deployment.yaml && \
+    git add App/deployment.yaml && \
     git commit -m "Deploying image asia.gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}
     Built from commit ${COMMIT_SHA} of repository GCP-CloudBuild-Dockerfile-Test-Repository
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
-    git push origin candidate
+    git push origin master
 logsBucket: 'gs://shubham-bucket-cloudbuild'
