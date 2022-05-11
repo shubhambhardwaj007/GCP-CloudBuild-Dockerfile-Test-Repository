@@ -36,7 +36,7 @@ steps:
   - |
     cd ArgoCD-Practice-Repo && \
     cat deployment_demo.yaml > App/deployment.yaml && \
-    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > App/deployment.yaml
+    sed "s/COMMIT_SHA/${SHORT_SHA}/g"  App/deployment.yaml
 # This step pushes the manifest back to hello-cloudbuild-env
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Push manifest
