@@ -49,5 +49,5 @@ steps:
     git commit -m "Deploying image asia.gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}
     Built from commit ${COMMIT_SHA} of repository GCP-CloudBuild-Dockerfile-Test-Repository
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
-    git push origin master
+    git push https://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@github.com/shubhambhardwaj007/ArgoCD-Practice-Repo.git
 logsBucket: 'gs://shubham-bucket-cloudbuild'
