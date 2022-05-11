@@ -25,7 +25,7 @@ steps:
     cd ArgoCD-Practice-Repo && \
     git checkout master && \
     git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)') && \
-    git config --global user.name "Shubham Bhardwaj" && \
+    git config --global user.name "Shubham Bhardwaj"
 
 # This step generates the new manifest
 - name: 'gcr.io/cloud-builders/gcloud'
