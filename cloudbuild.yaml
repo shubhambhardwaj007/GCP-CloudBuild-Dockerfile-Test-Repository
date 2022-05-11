@@ -1,7 +1,14 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build','-t','asia.gcr.io/searce-playground-v1/shubham-versioning:$SHORT_SHA','.']
+  id: Build
+  args:
+    - 'build'
+    - '-t'
+    - 'asia.gcr.io/searce-playground-v1/shubham-versioning:$SHORT_SHA'
+    - '.'
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push','asia.gcr.io/searce-playground-v1/shubham-versioning:$SHORT_SHA']
-images: ['asia.gcr.io/searce-playground-v1/shubham-cloudbuild-test-image:$SHORT_SHA']
+  id: Push
+  args:
+    - 'push'
+    - 'asia.gcr.io/searce-playground-v1/shubham-versioning:$SHORT_SHA'
 logsBucket: 'gs://shubham-bucket-cloudbuild'
