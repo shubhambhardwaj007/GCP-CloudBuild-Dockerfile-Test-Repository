@@ -4,11 +4,48 @@ steps:
   args:
     - 'build'
     - '-t'
-    - 'asia.gcr.io/searce-playground-v1/shubham-versioning:$SHORT_SHA'
+    - 'asia.gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}'
     - '.'
 - name: 'gcr.io/cloud-builders/docker'
   id: Push
   args:
     - 'push'
-    - 'asia.gcr.io/searce-playground-v1/shubham-versioning:$SHORT_SHA'
+    - 'asia.gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}'
+# This step clones the ArgoCD-Practice-Repo repository
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone', 'https://github.com/shubhambhardwaj007/ArgoCD-Practice-Repo.git']
+  dir: '.'
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Clone ArgoCD-Practice-Repo repository
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    cd ArgoCD-Practice-Repo && \
+    git checkout master && \
+    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
+
+# This step generates the new manifest
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Generate manifest
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > ArgoCD-Practice-Repo/App/deployment.yaml
+# This step pushes the manifest back to hello-cloudbuild-env
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Push manifest
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    set -x && \
+    cd  ArgoCD-Practice-Repo && \
+    git add deployment.yaml && \
+    git commit -m "Deploying image asia.gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}
+    Built from commit ${COMMIT_SHA} of repository GCP-CloudBuild-Dockerfile-Test-Repository
+    Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
+    git push origin candidate
 logsBucket: 'gs://shubham-bucket-cloudbuild'
