@@ -1,7 +1,7 @@
 <body text="red" bgcolor="lightyellow">
 <pre>
 <?php
-print "<h1>THIS SITE IS FOR TESTING : VERSION 2 \n</h1>";
+print "<h1>THIS SITE IS FOR TESTING : VERSION 1 \n</h1>";
 ?>
 <h2>
 <?php
