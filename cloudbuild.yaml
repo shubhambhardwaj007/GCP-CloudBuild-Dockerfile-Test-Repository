@@ -4,13 +4,13 @@ steps:
   args:
     - 'build'
     - '-t'
-    - 'asia.gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}'
+    - 'gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}'
     - '.'
 - name: 'gcr.io/cloud-builders/docker'
   id: Push
   args:
     - 'push'
-    - 'asia.gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}'
+    - 'gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}'
 # This step clones the ArgoCD-Practice-Repo repository
 - name: 'gcr.io/cloud-builders/git'
   args: ['clone', 'https://github.com/shubhambhardwaj007/ArgoCD-Practice-Repo.git']
@@ -47,7 +47,7 @@ steps:
     set -x && \
     cd  ArgoCD-Practice-Repo && \
     git add App/deployment.yaml && \
-    git commit -m "Deploying image asia.gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}
+    git commit -m "Deploying image gcr.io/searce-playground-v1/shubham-versioning:${SHORT_SHA}
     Built from commit ${COMMIT_SHA} of repository GCP-CloudBuild-Dockerfile-Test-Repository
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
     git push https://shubhambhardwaj007:${_GITHUB_TOKEN}@github.com/shubhambhardwaj007/ArgoCD-Practice-Repo.git
